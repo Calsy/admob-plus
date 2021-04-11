@@ -1,56 +1,77 @@
 package admob.plugin.ads;
 
-import android.util.SparseArray;
+import android.app.Activity;
+import android.content.res.Configuration;
 
-import org.json.JSONException;
-import org.json.JSONObject;
+import com.google.android.gms.ads.AdError;
+import com.google.android.gms.ads.rewarded.RewardItem;
 
-import admob.plugin.AdMob;
+import java.util.HashMap;
+import java.util.Map;
 
+import admob.plugin.ExecuteContext;
+
+import static admob.plugin.ExecuteContext.ads;
 
 public abstract class AdBase {
-    protected static AdMob plugin;
-
     final int id;
-    String adUnitID;
+    final String adUnitId;
 
-    private static SparseArray<AdBase> ads = new SparseArray<AdBase>();
-
-
-    AdBase(int id, String adUnitID) {
+    AdBase(int id, String adUnitId) {
         this.id = id;
-        this.adUnitID = adUnitID;
-
+        this.adUnitId = adUnitId;
         ads.put(id, this);
     }
 
-    public static void initialize(AdMob plugin) {
-        AdBase.plugin = plugin;
+    public AdBase(ExecuteContext ctx) {
+        this(ctx.optId(), ctx.optAdUnitID());
     }
 
     public static AdBase getAd(Integer id) {
         return ads.get(id);
     }
 
-    JSONObject buildErrorPayload(int errorCode) {
-        JSONObject data = new JSONObject();
-        try {
-            data.put("errorCode", errorCode);
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-        return data;
+    public void onConfigurationChanged(Configuration newConfig) {
     }
 
-    public void destroy() {
+    public void onPause(boolean multitasking) {
+    }
+
+    public void onResume(boolean multitasking) {
+    }
+
+    public void onDestroy() {
         ads.remove(id);
     }
 
-    abstract String getLoadedEvent();
-    abstract String getFailedToLoadEvent();
-    abstract String getOpenedEvent();
-    abstract String getClosedEvent();
-    abstract String getLeftApplicationEvent();
-    String getImpressionEvent() { return null; }
-    String getClickedEvent() { return null; }
+    public Activity getActivity() {
+        return ExecuteContext.plugin.cordova.getActivity();
+    }
+
+    public void emit(String eventName) {
+        this.emit(eventName, new HashMap<String, Object>());
+    }
+
+    public void emit(String eventName, AdError error) {
+        this.emit(eventName, new HashMap<String, Object>() {{
+            put("code", error.getCode());
+            put("message", error.getMessage());
+            put("cause", error.getCause());
+        }});
+    }
+
+    public void emit(String eventName, RewardItem rewardItem) {
+        this.emit(eventName, new HashMap<String, Object>() {{
+            put("reward", new HashMap<String, Object>() {{
+                put("amount", rewardItem.getAmount());
+                put("type", rewardItem.getType());
+            }});
+        }});
+    }
+
+    public void emit(String eventType, Map<String, Object> data) {
+        ExecuteContext.plugin.emit(eventType, new HashMap<String, Object>(data) {{
+            put("adId", id);
+        }});
+    }
 }

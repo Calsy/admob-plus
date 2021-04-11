@@ -3,6 +3,241 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.4.0](https://github.com/admob-plus/admob-plus/compare/@admob-plus/capacitor@1.3.2...@admob-plus/capacitor@1.4.0) (2021-04-10)
+
+
+### Bug Fixes
+
+* **capacitor/ios:** keep webview inside stackview, fix [#298](https://github.com/admob-plus/admob-plus/issues/298) ([a94f30a](https://github.com/admob-plus/admob-plus/commit/a94f30a1215ed24e7ea58cf396aa9362a2abf144))
+
+
+### Features
+
+* update Google-Mobile-Ads-SDK to 8.3.0 ([6e47530](https://github.com/admob-plus/admob-plus/commit/6e47530d6cf1793443ab4a339f6b90f8b726cf6d))
+
+
+
+
+
+## [1.3.2](https://github.com/admob-plus/admob-plus/compare/@admob-plus/capacitor@1.3.1...@admob-plus/capacitor@1.3.2) (2021-04-03)
+
+**Note:** Version bump only for package @admob-plus/capacitor
+
+
+
+
+
+## [1.3.1](https://github.com/admob-plus/admob-plus/compare/@admob-plus/capacitor@1.3.0...@admob-plus/capacitor@1.3.1) (2021-03-29)
+
+**Note:** Version bump only for package @admob-plus/capacitor
+
+
+
+
+
+# [1.3.0](https://github.com/admob-plus/admob-plus/compare/@admob-plus/capacitor@1.2.1...@admob-plus/capacitor@1.3.0) (2021-03-28)
+
+
+### Features
+
+* **capacitor:** add configure() ([37bdbaf](https://github.com/admob-plus/admob-plus/commit/37bdbaf5a64010f4671a4a32745654973036c6bf))
+
+
+
+
+
+## [1.2.1](https://github.com/admob-plus/admob-plus/compare/@admob-plus/capacitor@1.2.0...@admob-plus/capacitor@1.2.1) (2021-03-26)
+
+**Note:** Version bump only for package @admob-plus/capacitor
+
+
+
+
+
+# [1.2.0](https://github.com/admob-plus/admob-plus/compare/@admob-plus/capacitor@1.1.0...@admob-plus/capacitor@1.2.0) (2021-03-25)
+
+
+### Features
+
+* **cordova/ios:** emit banner size change event ([cbda37b](https://github.com/admob-plus/admob-plus/commit/cbda37b32b2f9a0a4af643b86333be258a25a34d))
+
+
+
+
+
+# [1.1.0](https://github.com/admob-plus/admob-plus/compare/@admob-plus/capacitor@1.0.2...@admob-plus/capacitor@1.1.0) (2021-03-24)
+
+
+### Features
+
+* **capacitor/ios:** do not reserve safe area when there is no banner ([bc6c5ea](https://github.com/admob-plus/admob-plus/commit/bc6c5ea1e41424a3d26b2a713cdf402ef93c0d8e))
+* **capacitor/ios:** set status bar to use light content for top banner ([b1cec3a](https://github.com/admob-plus/admob-plus/commit/b1cec3a4b7be773551a06bc4c0a9c804c974dce7))
+
+
+
+
+
+## [1.0.2](https://github.com/admob-plus/admob-plus/compare/@admob-plus/capacitor@1.0.1...@admob-plus/capacitor@1.0.2) (2021-03-23)
+
+
+### Bug Fixes
+
+* **capacitor/ios:** make status bar text visible ([7e31718](https://github.com/admob-plus/admob-plus/commit/7e3171833914155f1d3a21ce63496e457cc2f6d4))
+
+
+
+
+
+## [1.0.1](https://github.com/admob-plus/admob-plus/compare/@admob-plus/capacitor@1.0.0...@admob-plus/capacitor@1.0.1) (2021-03-22)
+
+
+### Bug Fixes
+
+* **capacitor/ios:** respect bottom safe area ([75a769d](https://github.com/admob-plus/admob-plus/commit/75a769d19f17a8d821fee41d216322de7c2799eb))
+
+
+
+
+
+# [1.0.0](https://github.com/admob-plus/admob-plus/compare/@admob-plus/capacitor@1.0.0-rc.1...@admob-plus/capacitor@1.0.0) (2021-03-21)
+
+**Note:** Version bump only for package @admob-plus/capacitor
+
+
+
+
+
+# [1.0.0-rc.1](https://github.com/admob-plus/admob-plus/compare/@admob-plus/capacitor@1.0.0-rc.0...@admob-plus/capacitor@1.0.0-rc.1) (2021-03-21)
+
+**Note:** Version bump only for package @admob-plus/capacitor
+
+
+
+
+
+# [1.0.0-rc.0](https://github.com/admob-plus/admob-plus/compare/@admob-plus/capacitor@1.0.0-beta.2...@admob-plus/capacitor@1.0.0-rc.0) (2021-03-20)
+
+
+### Features
+
+* **capacitor:** generate Events constant ([1fbb5a5](https://github.com/admob-plus/admob-plus/commit/1fbb5a5a4849571787ac7a762dcb5373f80b1e50))
+* **capacitor/android:** implement configRequest() ([33a426a](https://github.com/admob-plus/admob-plus/commit/33a426a77d945f1064629755545a1d3bc31a5ae2))
+* **capacitor/android:** implement RewardedInterstitialAd ([219f856](https://github.com/admob-plus/admob-plus/commit/219f8569d6d9cdc3b216c008f476ea7c80823865))
+* **capacitor/ios:** add RewardedInterstitialAd ([bc6c3a4](https://github.com/admob-plus/admob-plus/commit/bc6c3a479932bc5900c4163f5b8763f74fe6b3c2))
+* **capacitor/ios:** emit ad events ([09676db](https://github.com/admob-plus/admob-plus/commit/09676db5d154e520a48f742d69a2b1beb8a7141f))
+* **capacitor/ios:** emit banner.load event ([90c0bc4](https://github.com/admob-plus/admob-plus/commit/90c0bc4e46b49f3111af4de8bcb06911b2471994))
+* **capacitor/ios:** implement configRequest() ([bc6887f](https://github.com/admob-plus/admob-plus/commit/bc6887f9483dd6cb83bf2c7f293fa8131a0ea161))
+* **cordova/ios:** emit banner ad size change event ([4582cdd](https://github.com/admob-plus/admob-plus/commit/4582cdd2d609823cc1fd5994a0340abfc909027e))
+* generate impression events ([527e2dd](https://github.com/admob-plus/admob-plus/commit/527e2dda0233d95152d47ec40fa8e55457c9b4d7))
+* use lower case for event names ([a4213e5](https://github.com/admob-plus/admob-plus/commit/a4213e57c3687574c9d273b76fa19e3a25b8cf11))
+* **capacitor/ios:** manage banner view with UIStackView ([a55cbfe](https://github.com/admob-plus/admob-plus/commit/a55cbfeb8bc7975982ad9a420313af492d4e51d7))
+* **internal/cli:** generate capacitor ios marco ([9c71195](https://github.com/admob-plus/admob-plus/commit/9c71195c8d536661a7ac00a77eb0dff0dd838154))
+
+
+
+
+
+# [1.0.0-beta.2](https://github.com/admob-plus/admob-plus/compare/@admob-plus/capacitor@1.0.0-beta.1...@admob-plus/capacitor@1.0.0-beta.2) (2021-03-14)
+
+
+### Features
+
+* **capacitor/ios:** update Google-Mobile-Ads-SDK to v8.2.0.1 ([2183d9d](https://github.com/admob-plus/admob-plus/commit/2183d9da923ed443c036c6bff6f9754210d5cfb3))
+
+
+
+
+
+# [1.0.0-beta.1](https://github.com/admob-plus/admob-plus/compare/@admob-plus/capacitor@1.0.0-beta.0...@admob-plus/capacitor@1.0.0-beta.1) (2021-03-13)
+
+**Note:** Version bump only for package @admob-plus/capacitor
+
+
+
+
+
+# [1.0.0-beta.0](https://github.com/admob-plus/admob-plus/compare/@admob-plus/capacitor@1.0.0-alpha.5...@admob-plus/capacitor@1.0.0-beta.0) (2021-03-13)
+
+**Note:** Version bump only for package @admob-plus/capacitor
+
+
+
+
+
+# [1.0.0-alpha.5](https://github.com/admob-plus/admob-plus/compare/@admob-plus/capacitor@1.0.0-alpha.4...@admob-plus/capacitor@1.0.0-alpha.5) (2021-03-12)
+
+**Note:** Version bump only for package @admob-plus/capacitor
+
+
+
+
+
+# [1.0.0-alpha.4](https://github.com/admob-plus/admob-plus/compare/@admob-plus/capacitor@1.0.0-alpha.3...@admob-plus/capacitor@1.0.0-alpha.4) (2021-03-09)
+
+**Note:** Version bump only for package @admob-plus/capacitor
+
+
+
+
+
+# [1.0.0-alpha.3](https://github.com/admob-plus/admob-plus/compare/@admob-plus/capacitor@1.0.0-alpha.2...@admob-plus/capacitor@1.0.0-alpha.3) (2021-03-07)
+
+**Note:** Version bump only for package @admob-plus/capacitor
+
+
+
+
+
+# [1.0.0-alpha.2](https://github.com/admob-plus/admob-plus/compare/@admob-plus/capacitor@1.0.0-alpha.1...@admob-plus/capacitor@1.0.0-alpha.2) (2021-03-02)
+
+
+### Features
+
+* **capacitor:** add BannerAd ([c41ab3c](https://github.com/admob-plus/admob-plus/commit/c41ab3cccf9febc4035f788e0821f5e8532a3796))
+* **capacitor/android:** implement BannerAd ([33a7d1f](https://github.com/admob-plus/admob-plus/commit/33a7d1fc8758485979dbb9cde3557f5b04bfe676))
+* **capacitor/ios:** implement BannerAd ([7d68fcf](https://github.com/admob-plus/admob-plus/commit/7d68fcf9172e77e977df510d2782bbbfe888d339))
+
+
+
+
+
+# [1.0.0-alpha.1](https://github.com/admob-plus/admob-plus/compare/@admob-plus/capacitor@1.0.0-alpha.0...@admob-plus/capacitor@1.0.0-alpha.1) (2021-02-17)
+
+
+### Features
+
+* **capacitor:** export InterstitialAd class ([923a71d](https://github.com/admob-plus/admob-plus/commit/923a71da9e304be37e12442a3c6d9e292191c14b))
+* **capacitor:** implement start() method ([ffcbf50](https://github.com/admob-plus/admob-plus/commit/ffcbf50ed6a37754b428a106242ba7b06725b360))
+* **capacitor:** npm init @capacitor/plugin ([4b53a48](https://github.com/admob-plus/admob-plus/commit/4b53a486aa6beecd69c05a7f8d95d2f3e7f2d48e))
+* **capacitor:** remove echo() method ([4ea239f](https://github.com/admob-plus/admob-plus/commit/4ea239ffb88685866185ce3eea8a03c288e37fc9))
+* **capacitor:** rename AdmobPlus to AdMobPlus ([a17fec8](https://github.com/admob-plus/admob-plus/commit/a17fec8f17cfefd6b89492e20899d17c51765780))
+* **capacitor/android:** implement AdMobPlus.start() ([a0d701a](https://github.com/admob-plus/admob-plus/commit/a0d701a1b6b03fc1f2176d706453e970cbf0e442))
+* **capacitor/android:** implement interstitial ad methods ([aa5314a](https://github.com/admob-plus/admob-plus/commit/aa5314a763970c570d2694d0a244e7c0cbb16d98))
+* **capacitor/android:** implement RewardedAd ([7e0a620](https://github.com/admob-plus/admob-plus/commit/7e0a620fff905b28dc5eebacdc00d1a7baeeba2f))
+* **capacitor/ios:** export RewardedAd class ([9a43a7f](https://github.com/admob-plus/admob-plus/commit/9a43a7fd73d433a71284d1fa579b2ad461cad167))
+* **capacitor/ios:** implement interstitial ad methods ([67bf01d](https://github.com/admob-plus/admob-plus/commit/67bf01d5cc13fe41f7de8042e64fa3ffc846be33))
+* **example/capacitor:** cap add android ([3e80918](https://github.com/admob-plus/admob-plus/commit/3e809186d5da6b5b2cf087e9938520b7815beafa))
+
+
+
+
+
+# [1.0.0-alpha.0](https://github.com/admob-plus/admob-plus/compare/@admob-plus/capacitor@0.4.2...@admob-plus/capacitor@1.0.0-alpha.0) (2021-01-19)
+
+**Note:** Version bump only for package @admob-plus/capacitor
+
+
+
+
+
+## [0.4.2](https://github.com/admob-plus/admob-plus/compare/@admob-plus/capacitor@0.4.1...@admob-plus/capacitor@0.4.2) (2020-11-22)
+
+**Note:** Version bump only for package @admob-plus/capacitor
+
+
+
+
+
 ## [0.4.1](https://github.com/admob-plus/admob-plus/compare/@admob-plus/capacitor@0.4.0...@admob-plus/capacitor@0.4.1) (2019-11-17)
 
 **Note:** Version bump only for package @admob-plus/capacitor

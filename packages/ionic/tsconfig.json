@@ -1,20 +1,21 @@
 {
+  "extends": "@admob-plus-internal/tsconfig",
   "compilerOptions": {
-    "strict": true,
-    "esModuleInterop": true,
     "baseUrl": ".",
     "declaration": true,
     "stripInternal": true,
     "experimentalDecorators": true,
-    "emitDecoratorMetadata": true,
+    "emitDecoratorMetadata": false,
     "noImplicitAny": true,
     "module": "es2015",
     "moduleResolution": "node",
-    "outDir": "dist",
-    "rootDir": ".",
+    "outDir": "ngx",
+    "rootDir": "src",
     "target": "es5",
     "skipLibCheck": true,
-    "lib": ["es2015", "dom"],
-    "strictPropertyInitialization": false
-  }
+    "lib": ["es2017", "dom"],
+    "inlineSources": true,
+    "sourceMap": true
+  },
+  "include": ["src/**/*.ts"]
 }

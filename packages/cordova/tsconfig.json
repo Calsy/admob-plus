@@ -1,5 +1,5 @@
 {
-  "extends": "../../tsconfig.base.json",
+  "extends": "@admob-plus-internal/tsconfig",
   "compilerOptions": {
     "module": "commonjs",
     "esModuleInterop": true,
@@ -10,8 +10,8 @@
       "es2015"
     ],
     "rootDir": "ts",
-    "outDir": "www",
-    "types": ["node"]
+    "outDir": "lib",
+    "types": ["node", "cordova"]
   },
   "include": [
     "ts/**/*.ts"

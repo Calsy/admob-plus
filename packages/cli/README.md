@@ -1,61 +1,54 @@
+[![NPM version](https://img.shields.io/npm/v/admob-plus.svg)](https://npmjs.org/package/admob-plus)
+[![GitHub last commit](https://img.shields.io/github/last-commit/admob-plus/admob-plus)](https://github.com/admob-plus/admob-plus)
+![Dependency status](https://img.shields.io/librariesio/release/npm/admob-plus)
+![Vulnerabilities](https://img.shields.io/snyk/vulnerabilities/npm/admob-plus)
+![NPM license](https://img.shields.io/npm/l/admob-plus)
+
 admob-plus
 ==========
 
-<!-- toc -->
-* [Usage](#usage)
-* [Commands](#commands)
-<!-- tocstop -->
-# Usage
-<!-- usage -->
-```sh-session
-$ npm install -g admob-plus
-$ admob-plus COMMAND
-running command...
-$ admob-plus (-v|--version|version)
-admob-plus/0.15.5 darwin-x64 node-v13.7.0
-$ admob-plus --help [COMMAND]
-USAGE
-  $ admob-plus COMMAND
-...
-```
-<!-- usagestop -->
-# Commands
-<!-- commands -->
-* [`admob-plus help [COMMAND]`](#admob-plus-help-command)
-* [`admob-plus info`](#admob-plus-info)
+<!-- AUTO-GENERATED-CONTENT:START (TOC) -->
+- [Usage](#usage)
+- [Commands](#commands)
+  * [`admob-plus doctor`](#admob-plus-doctor)
+  * [`admob-plus info`](#admob-plus-info)
+<!-- AUTO-GENERATED-CONTENT:END -->
 
-## `admob-plus help [COMMAND]`
-
-display help for admob-plus
+<!-- AUTO-GENERATED-CONTENT:START (CLI) -->
+## Usage
 
 ```
-USAGE
-  $ admob-plus help [COMMAND]
+admob-plus <command>
 
-ARGUMENTS
-  COMMAND  command to show help for
+Commands:
+  admob-plus doctor  Check your project setup for potential problems
+  admob-plus info    Get relevant version info about OS, toolchain and libraries
 
-OPTIONS
-  --all  see all commands in CLI
+Options:
+  --version  Show version number                                       [boolean]
+  --help     Show help                                                 [boolean]
 ```
 
-_See code: [@oclif/plugin-help](https://github.com/oclif/plugin-help/blob/v2.1.6/src/commands/help.ts)_
+## Commands
 
-## `admob-plus info`
+### `admob-plus doctor`
+
+Check your project setup for potential problems
+
+```
+Options:
+  --version  Show version number                                       [boolean]
+  --help     Show help                                                 [boolean]
+```
+
+### `admob-plus info`
 
 Get relevant version info about OS, toolchain and libraries
 
 ```
-USAGE
-  $ admob-plus info
-
-OPTIONS
-  -h, --help   show CLI help
-  --clipboard  copy the environment report output to the clipboard
-
-EXAMPLE
-  $ admob-plus info
+Options:
+  --version    Show version number                                     [boolean]
+  --help       Show help                                               [boolean]
+  --clipboard  Copy the environment report output to the clipboard     [boolean]
 ```
-
-_See code: [src/commands/info.ts](https://github.com/admob-plus/admob-plus/blob/v0.15.5/src/commands/info.ts)_
-<!-- commandsstop -->
+<!-- AUTO-GENERATED-CONTENT:END -->

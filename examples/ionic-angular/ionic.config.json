@@ -1,7 +1,7 @@
 {
-  "name": "ionic-angular-example",
-  "type": "ionic-angular",
+  "name": "AdMob Plus Ionic",
   "integrations": {
     "cordova": {}
-  }
+  },
+  "type": "angular"
 }

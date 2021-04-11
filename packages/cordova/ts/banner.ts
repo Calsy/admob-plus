@@ -1,28 +1,47 @@
-import { AdSizeType, AdUnitIDOption, IBannerRequest } from '@admob-plus/core'
+import {
+  AdSizeType,
+  execAsync,
+  MobileAd,
+  MobileAdOptions,
+  NativeActions,
+} from './shared'
 
-import { AdBase, execAsync, NativeActions, TestIds } from './base'
+type Position = 'top' | 'bottom'
 
-export default class Banner extends AdBase {
-  protected testIdForAndroid = TestIds.banner_android
-  protected testIdForIOS = TestIds.banner_ios
+export interface BannerAdOptions extends MobileAdOptions {
+  position?: Position
+  size?: AdSizeType
+  offset?: number
+}
 
-  public show(opts: IBannerRequest) {
-    const adUnitID = this.resolveAdUnitID(opts.id)
-    return execAsync(NativeActions.banner_show, [
-      {
-        position: 'bottom',
-        size: AdSizeType.SMART_BANNER,
-        ...opts,
-        adUnitID,
-        id: this.state.getAdId(adUnitID),
-      },
-    ])
+export default class BannerAd extends MobileAd<BannerAdOptions> {
+  private _loaded = false
+
+  constructor(opts: BannerAdOptions) {
+    super({
+      position: 'bottom',
+      size: AdSizeType.SMART_BANNER,
+      ...opts,
+    })
   }
 
-  public hide(id: AdUnitIDOption) {
-    const adUnitID = this.resolveAdUnitID(id)
-    return execAsync(NativeActions.banner_hide, [
-      { id: this.state.getAdId(adUnitID) },
+  public async load() {
+    const result = await execAsync(NativeActions.bannerLoad, [
+      { ...this.opts, id: this.id },
     ])
+    this._loaded = true
+    return result
+  }
+
+  public async show() {
+    if (!this._loaded) {
+      await this.load()
+    }
+
+    return execAsync(NativeActions.bannerShow, [{ id: this.id }])
+  }
+
+  public hide() {
+    return execAsync(NativeActions.bannerHide, [{ id: this.id }])
   }
 }

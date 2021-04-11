@@ -1,85 +1,72 @@
 {
   "name": "admob-plus-monorepo",
+  "version": "0.0.0",
   "private": true,
   "scripts": {
-    "test": "run-s test:*",
-    "test:cli": "cd packages/cli && run-s test",
+    "postinstall": "is-ci || lefthook install",
+    "prepare": "lerna run prepare",
+    "prepublishOnly": "del '*.tsbuildinfo' 'packages/*/*.tsbuildinfo'",
+    "test": "run-s 'test:*'",
+    "test:pkgs": "lerna run test",
     "test:jest": "jest",
-    "lint": "tslint --project packages/cordova",
-    "test-android": "run-s test-android:*",
-    "test-android:testbed": "cordova-testbed --platform android --plugin packages/cordova --build-only",
-    "test-android:example": "cd examples/basic && run-s link-plugin && cordova build android",
-    "test-ios": "run-s test-ios:*",
-    "test-ios:testbed": "cordova-testbed --platform ios --plugin packages/cordova --build-only",
-    "test-ios:example": "cd examples/basic && run-s link-plugin && cordova build ios"
+    "lint": "eslint --cache --ext .js,.jsx,.ts,tsx .",
+    "gen": "yarn workspace @admob-plus-internal/cli run gen",
+    "test-android": "run-s 'test-android:*'",
+    "//test-android:testbed": "cordova-testbed --platform android --plugin packages/cordova --build-only",
+    "test-ios": "run-s 'test-ios:*'",
+    "test-ios:lint": "node-swiftlint --path packages/cordova/src/ios",
+    "//test-ios:testbed": "cordova-testbed --platform ios --plugin packages/cordova --build-only"
   },
   "devDependencies": {
-    "@commitlint/cli": "^8.3.5",
-    "@commitlint/config-conventional": "^8.3.4",
-    "@commitlint/config-lerna-scopes": "^8.3.4",
-    "@commitlint/prompt-cli": "^8.3.5",
-    "@frat/link-dir": "^2.3.0",
-    "@types/jest": "^25.1.2",
-    "@types/yargs": "^15.0.3",
-    "cordova": "9.0.1-nightly.2019.11.10.44afc892",
+    "@admob-plus-internal/cli": "file:./internal/cli",
+    "@admob-plus-internal/tsconfig": "file:./internal/tsconfig",
+    "@arkweid/lefthook": "^0.7.2",
+    "@commitlint/cli": "^12.1.1",
+    "@commitlint/config-conventional": "^12.1.1",
+    "@commitlint/config-lerna-scopes": "^12.1.1",
+    "@commitlint/prompt-cli": "^12.1.1",
+    "@ionic-native/admob-plus": "^5.32.0",
+    "@jest/types": "^26.6.2",
+    "@types/cordova": "^0.0.34",
+    "@types/jest": "^26.0.22",
+    "@types/node": "^14.14.37",
+    "@types/xml2js": "^0.4.8",
+    "cordova": "10.0.0",
     "cordova-testbed": "^0.8.0",
-    "eslint": "^6.8.0",
-    "eslint-config-concise": "^0.37.1",
-    "eslint-config-concise-browser": "^0.37.0",
-    "eslint-config-concise-esnext": "^0.37.0",
-    "eslint-plugin-react": "^7.18.3",
-    "execa": "^4.0.0",
-    "husky": "^4.2.1",
-    "jest": "^25.1.0",
-    "lerna": "^3.20.2",
-    "lint-staged": "^10.0.7",
+    "del-cli": "^3.0.1",
+    "eslint": "^7.24.0",
+    "eslint-config-concise": "^0.40.1",
+    "eslint-config-concise-browser": "^0.40.1",
+    "eslint-config-concise-esnext": "^0.40.1",
+    "eslint-config-concise-typescript": "^0.40.1",
+    "eslint-plugin-node": "^11.1.0",
+    "eslint-plugin-react": "^7.23.2",
+    "eslint-plugin-unicorn": "^29.0.0",
+    "execa": "^5.0.0",
+    "is-ci": "^3.0.0",
+    "jest": "^26.6.3",
+    "lerna": "^4.0.0",
     "npm-run-all": "^4.1.5",
-    "prettier": "^1.19.1",
-    "prettier-eslint-cli": "^5.0.0",
-    "prettier-tslint": "^0.4.2",
-    "read-pkg": "^5.2.0",
-    "remark-cli": "^8.0.0",
+    "prettier": "^2.2.1",
+    "prettier-eslint-cli": "^5.0.1",
+    "remark-cli": "^9.0.0",
     "remark-lint-are-links-valid-duplicate": "^0.2.2",
     "remark-lint-heading-whitespace": "^1.0.0",
-    "remark-lint-no-empty-sections": "^3.0.0",
+    "remark-lint-no-empty-sections": "^4.0.0",
     "remark-lint-no-trailing-spaces": "^2.0.1",
-    "remark-preset-lint-consistent": "^3.0.0",
-    "remark-preset-lint-markdown-style-guide": "^3.0.0",
-    "remark-preset-lint-recommended": "^4.0.0",
-    "replace-in-file": "^6.0.0",
-    "ts-jest": "^25.2.0",
-    "tslint": "^6.0.0",
-    "tslint-config-concise": "^0.37.0",
-    "tslint-eslint-rules": "^5.4.0",
-    "typescript": "^3.7.5",
-    "yargs": "^15.1.0"
+    "remark-preset-lint-consistent": "^4.0.0",
+    "remark-preset-lint-markdown-style-guide": "^4.0.0",
+    "remark-preset-lint-recommended": "^5.0.0",
+    "swiftlint": "^1.0.1",
+    "ts-jest": "^26.5.4",
+    "ts-node": "^9.1.1",
+    "typescript": "^4.2.4"
   },
   "repository": "admob-plus/admob-plus",
   "commitlint": {
     "extends": [
       "@commitlint/config-conventional"
     ]
-  },
-  "eslintConfig": {
-    "extends": [
-      "concise"
-    ]
-  },
-  "husky": {
-    "hooks": {
-      "commit-msg": "commitlint -E HUSKY_GIT_PARAMS",
-      "pre-commit": "lint-staged"
-    }
-  },
-  "lint-staged": {
-    "*.js": [
-      "prettier-eslint --write",
-      "eslint --fix"
-    ],
-    "*.md": "remark --no-stdout",
-    "*.ts": "prettier-tslint fix",
-    "examples/*/package.json": "prettier --write",
-    "packages/cordova/src/ios/*.swift": "swiftlint lint --strict --path"
   },
   "remarkConfig": {
     "plugins": [
@@ -91,28 +78,30 @@
       "remark-lint-no-empty-sections"
     ]
   },
-  "workspaces": {
-    "nohoist": [
-      "**/@angular*",
-      "**/@angular*/**",
-      "**/@capacitor/**",
-      "**/@ionic/**",
-      "**/@ionic/app-scripts",
-      "**/@ionic/app-scripts/**",
-      "**/@ionic-native/**",
-      "**/@ionic-native/splash-screen",
-      "**/@ionic-native/status-bar",
-      "**/ionic-angular",
-      "**/ionic-angular/**",
-      "**/ionicons",
-      "**/ionicons/**",
-      "**/cordova-admob-plus",
-      "**/ionic",
-      "**/ionic-admob"
-    ],
-    "packages": [
-      "packages/*",
-      "website"
-    ]
-  }
+  "dependenciesMeta": {
+    "@angular/compiler-cli": {
+      "unplugged": true
+    },
+    "native-run": {
+      "unplugged": true
+    }
+  },
+  "resolutions": {
+    "@admob-plus-internal/cli": "workspace:*",
+    "@admob-plus-internal/rollup-config": "workspace:*",
+    "@admob-plus-internal/tsconfig": "workspace:*",
+    "@admob-plus/capacitor": "link:./packages/capacitor",
+    "@admob-plus/ionic": "workspace:*",
+    "@admob-plus/react-native": "workspace:*",
+    "@types/node": "^14.14.37",
+    "admob-plus-cordova": "workspace:*",
+    "admob-plus": "workspace:*",
+    "cordova-plugin-consent": "workspace:*"
+  },
+  "workspaces": [
+    "examples/*",
+    "internal/*",
+    "packages/*",
+    "website"
+  ]
 }

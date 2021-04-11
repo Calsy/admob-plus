@@ -1,12 +1,10 @@
 package admob.plugin;
 
-import android.content.pm.ApplicationInfo;
-import android.content.pm.PackageManager;
-import android.os.Bundle;
+import android.content.res.Configuration;
 import android.provider.Settings;
 import android.util.Log;
-import java.math.BigDecimal;
-import java.util.ArrayList;
+
+import com.google.android.gms.ads.MobileAds;
 
 import org.apache.cordova.CallbackContext;
 import org.apache.cordova.CordovaInterface;
@@ -14,134 +12,247 @@ import org.apache.cordova.CordovaPlugin;
 import org.apache.cordova.CordovaWebView;
 import org.apache.cordova.PluginResult;
 import org.json.JSONArray;
-import org.json.JSONException;
 import org.json.JSONObject;
 
-import com.google.android.gms.ads.MobileAds;
+import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
+import admob.plugin.Generated.Actions;
 import admob.plugin.ads.AdBase;
-import admob.plugin.ads.BannerAd;
-import admob.plugin.ads.InterstitialAd;
-import admob.plugin.ads.RewardedVideoAd;
+import admob.plugin.ads.Banner;
+import admob.plugin.ads.IAdIsLoaded;
+import admob.plugin.ads.IAdShow;
+import admob.plugin.ads.Interstitial;
+import admob.plugin.ads.Rewarded;
+import admob.plugin.ads.RewardedInterstitial;
+
+import static admob.plugin.ExecuteContext.ads;
 
 public class AdMob extends CordovaPlugin {
-    private static final String TAG = "AdMob-Plus";
-
+    private static final String TAG = "AdMobPlus";
+    private final ArrayList<PluginResult> eventQueue = new ArrayList<PluginResult>();
     private CallbackContext readyCallbackContext = null;
-
-    private static final String TEST_APPLICATION_ID = "ca-app-pub-3940256099942544~3347511713";
-
-    private ArrayList<PluginResult> waitingForReadyCallbackContextResults = new ArrayList<PluginResult>();
 
     @Override
     public void initialize(CordovaInterface cordova, CordovaWebView webView) {
         super.initialize(cordova, webView);
+        Log.i(TAG, "Initialize plugin");
 
-        MobileAds.initialize(cordova.getActivity(), getApplicationID());
-        AdBase.initialize(this);
+        ExecuteContext.plugin = this;
     }
 
     @Override
     public boolean execute(String actionKey, JSONArray args, CallbackContext callbackContext) {
-        Action action = new Action(args);
-        if (Actions.READY.equals(actionKey)) {
-            if (readyCallbackContext == null) {
-                for (PluginResult result : waitingForReadyCallbackContextResults) {
-                    callbackContext.sendPluginResult(result);
-                }
-                waitingForReadyCallbackContextResults.clear();
+        Log.d(TAG, String.format("Execute %s", actionKey));
+        ExecuteContext ctx = new ExecuteContext(actionKey, args, callbackContext);
+
+        switch (actionKey) {
+            case Actions.READY:
+                return executeReady(callbackContext);
+            case Actions.START:
+                MobileAds.initialize(cordova.getActivity(), status -> callbackContext.success(new JSONObject(new HashMap<String, Object>() {{
+                    put("version", MobileAds.getVersionString());
+                }})));
+                break;
+            case Actions.CONFIG_REQUEST:
+                MobileAds.setRequestConfiguration(ctx.optRequestConfiguration());
+                callbackContext.success();
+                break;
+            case Actions.BANNER_LOAD:
+                return executeBannerLoad(ctx);
+            case Actions.BANNER_SHOW:
+                return executeBannerShow(ctx);
+            case Actions.BANNER_HIDE:
+                return executeBannerHide(ctx);
+            case Actions.INTERSTITIAL_LOAD:
+                return executeInterstitialLoad(ctx);
+            case Actions.REWARDED_LOAD:
+                return executeRewardedLoad(ctx);
+            case Actions.REWARDED_INTERSTITIAL_LOAD:
+                return executeRewardedInterstitialLoad(ctx);
+            case Actions.SET_APP_MUTED: {
+                boolean value = args.optBoolean(0);
+                MobileAds.setAppMuted(value);
+                callbackContext.success();
+                break;
             }
-            readyCallbackContext = callbackContext;
-            JSONObject data = new JSONObject();
-            try {
-                data.put("platform", "android");
-                data.put("applicationID", getApplicationID());
-                data.put("isRunningInTestLab", isRunningInTestLab());
-            } catch (JSONException e) {
-                e.printStackTrace();
+            case Actions.SET_APP_VOLUME: {
+                float value = BigDecimal.valueOf(args.optDouble(0)).floatValue();
+                MobileAds.setAppVolume(value);
+                callbackContext.success();
+                break;
             }
-            emit(Events.READY, data);
-            return true;
-        } else if (Actions.BANNER_HIDE.equals(actionKey)) {
-            return BannerAd.executeHideAction(action, callbackContext);
-        } else if (Actions.BANNER_SHOW.equals(actionKey)) {
-            return BannerAd.executeShowAction(action, callbackContext);
-        } else if (Actions.INTERSTITIAL_IS_LOADED.equals(actionKey)) {
-            return InterstitialAd.executeIsLoadedAction(action, callbackContext);
-        } else if (Actions.INTERSTITIAL_LOAD.equals(actionKey)) {
-            return InterstitialAd.executeLoadAction(action, callbackContext);
-        } else if (Actions.INTERSTITIAL_SHOW.equals(actionKey)) {
-            return InterstitialAd.executeShowAction(action, callbackContext);
-        } else if (Actions.REWARD_VIDEO_IS_READY.equals(actionKey)) {
-            return RewardedVideoAd.executeIsReadyAction(action, callbackContext);
-        } else if (Actions.REWARD_VIDEO_LOAD.equals(actionKey)) {
-            return RewardedVideoAd.executeLoadAction(action, callbackContext);
-        } else if (Actions.REWARD_VIDEO_SHOW.equals(actionKey)) {
-            return RewardedVideoAd.executeShowAction(action, callbackContext);
-        } else if (Actions.SET_APP_MUTED.equals(actionKey)) {
-            boolean value = args.optBoolean(0);
-            MobileAds.setAppMuted(value);
-            PluginResult result = new PluginResult(PluginResult.Status.OK, "");
-            callbackContext.sendPluginResult(result);
-            return true;
-        } else if (Actions.SET_APP_VOLUME.equals(actionKey)) {
-            float value = BigDecimal.valueOf(args.optDouble(0)).floatValue();
-            MobileAds.setAppVolume(value);
-            PluginResult result = new PluginResult(PluginResult.Status.OK, "");
-            callbackContext.sendPluginResult(result);
-            return true;
+            case Actions.INTERSTITIAL_IS_LOADED:
+            case Actions.REWARDED_IS_LOADED:
+            case Actions.REWARDED_INTERSTITIAL_IS_LOADED:
+                return executeAdIsLoaded(ctx);
+            case Actions.INTERSTITIAL_SHOW:
+            case Actions.REWARDED_SHOW:
+            case Actions.REWARDED_INTERSTITIAL_SHOW:
+                return executeAdShow(ctx);
+            default:
+                return false;
         }
 
-        return false;
+        return true;
+    }
+
+    private boolean executeReady(CallbackContext callbackContext) {
+        if (readyCallbackContext == null) {
+            for (PluginResult result : eventQueue) {
+                callbackContext.sendPluginResult(result);
+            }
+            eventQueue.clear();
+        } else {
+            Log.e(TAG, "Ready action should only be called once.");
+        }
+        readyCallbackContext = callbackContext;
+        emit(Generated.Events.READY, new HashMap<String, Object>() {{
+            put("isRunningInTestLab", isRunningInTestLab());
+        }});
+        return true;
+    }
+
+    private boolean executeBannerLoad(ExecuteContext ctx) {
+        cordova.getActivity().runOnUiThread(() -> {
+            Banner banner = ctx.optAdOrCreate(Banner.class);
+            if (banner != null) {
+                banner.load(ctx);
+            }
+        });
+        return true;
+    }
+
+    private boolean executeBannerShow(ExecuteContext ctx) {
+        cordova.getActivity().runOnUiThread(() -> {
+            Banner banner = (Banner) ctx.optAdOrError();
+            if (banner != null) {
+                banner.show(ctx);
+            }
+        });
+        return true;
+    }
+
+    private boolean executeBannerHide(ExecuteContext ctx) {
+        cordova.getActivity().runOnUiThread(() -> {
+            Banner banner = (Banner) ctx.optAdOrError();
+            if (banner != null) {
+                banner.hide(ctx);
+            }
+        });
+        return true;
+    }
+
+    private boolean executeAdIsLoaded(ExecuteContext ctx) {
+        cordova.getActivity().runOnUiThread(() -> {
+            IAdIsLoaded ad = (IAdIsLoaded) ctx.optAdOrError();
+            if (ad != null) {
+                ctx.success(ad.isLoaded());
+            }
+        });
+        return true;
+    }
+
+    private boolean executeInterstitialLoad(ExecuteContext ctx) {
+        cordova.getActivity().runOnUiThread(() -> {
+            Interstitial ad = ctx.optAdOrCreate(Interstitial.class);
+            if (ad != null) {
+                ad.load(ctx);
+            }
+        });
+        return true;
+    }
+
+    private boolean executeAdShow(ExecuteContext ctx) {
+        cordova.getActivity().runOnUiThread(() -> {
+            IAdShow ad = (IAdShow) ctx.optAdOrError();
+            if (ad != null) {
+                ad.show(ctx);
+            }
+        });
+        return true;
+    }
+
+    private boolean executeRewardedLoad(ExecuteContext ctx) {
+        cordova.getActivity().runOnUiThread(() -> {
+            Rewarded ad = ctx.optAdOrCreate(Rewarded.class);
+            if (ad != null) {
+                ad.load(ctx);
+            }
+        });
+        return true;
+    }
+
+    private boolean executeRewardedInterstitialLoad(ExecuteContext ctx) {
+        cordova.getActivity().runOnUiThread(() -> {
+            RewardedInterstitial ad = ctx.optAdOrCreate(RewardedInterstitial.class);
+            if (ad != null) {
+                ad.load(ctx);
+            }
+        });
+        return true;
+    }
+
+    @Override
+    public void onConfigurationChanged(Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
+
+        for (int i = 0; i < ads.size(); i++) {
+            AdBase ad = ads.valueAt(i);
+            ad.onConfigurationChanged(newConfig);
+        }
+    }
+
+    @Override
+    public void onPause(boolean multitasking) {
+        for (int i = 0; i < ads.size(); i++) {
+            AdBase ad = ads.valueAt(i);
+            ad.onPause(multitasking);
+        }
+        super.onPause(multitasking);
+    }
+
+    @Override
+    public void onResume(boolean multitasking) {
+        super.onResume(multitasking);
+        for (int i = 0; i < ads.size(); i++) {
+            AdBase ad = ads.valueAt(i);
+            ad.onResume(multitasking);
+        }
     }
 
     @Override
     public void onDestroy() {
         readyCallbackContext = null;
 
+        for (int i = 0; i < ads.size(); i++) {
+            AdBase ad = ads.valueAt(i);
+            ad.onDestroy();
+        }
+
         super.onDestroy();
     }
 
-    public void emit(String eventType) {
-        emit(eventType, false);
-    }
-
-    public void emit(String eventType, Object data) {
-        JSONObject event = new JSONObject();
-        try {
-            event.put("type", eventType);
-            event.put("data", data);
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
+    public void emit(String eventName, Map<String, Object> data) {
+        JSONObject event = new JSONObject(new HashMap<String, Object>() {{
+            put("type", eventName);
+            put("data", data);
+        }});
 
         PluginResult result = new PluginResult(PluginResult.Status.OK, event);
         result.setKeepCallback(true);
         if (readyCallbackContext == null) {
-          waitingForReadyCallbackContextResults.add(result);
+            eventQueue.add(result);
         } else {
-          readyCallbackContext.sendPluginResult(result);
+            readyCallbackContext.sendPluginResult(result);
         }
-    }
-
-    private String getApplicationID() {
-        try {
-            ApplicationInfo ai = cordova.getActivity().getApplicationContext().getPackageManager().getApplicationInfo(cordova.getActivity().getPackageName(), PackageManager.GET_META_DATA);
-            Bundle bundle = ai.metaData;
-            return bundle.getString("com.google.android.gms.ads.APPLICATION_ID");
-        } catch (Exception e) {
-            Log.e(TAG, "Forget to configure <meta-data android:name=\"com.google.android.gms.ads.APPLICATION_ID\" android:value=\"XXX\"/> in your AndroidManifest.xml file.");
-        }
-
-        String applicationID = cordova.getActivity().getIntent().getStringExtra("APP_ID_ANDROID");
-        if (applicationID == null || "".equals(applicationID) || "test".equals(applicationID)) {
-            return TEST_APPLICATION_ID;
-        }
-        return applicationID;
     }
 
     private boolean isRunningInTestLab() {
-        String testLabSetting = Settings.System.getString(cordova.getActivity().getContentResolver(), "firebase.test.lab");
+        String testLabSetting = Settings.System.getString(cordova.getActivity().getContentResolver(),
+                "firebase.test.lab");
         return "true".equals(testLabSetting);
     }
 }

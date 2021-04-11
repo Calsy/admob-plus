@@ -1,63 +1,50 @@
 {
-  "name": "cordova-admob-plus",
-  "version": "0.36.0",
+  "name": "admob-plus-cordova",
+  "version": "1.5.0",
   "description": "Trustable Google AdMob Cordova Plugin",
-  "main": "www/admob.js",
-  "typings": "www/admob.d.ts",
+  "main": "lib/index.js",
+  "typings": "lib/index.d.ts",
   "scripts": {
-    "prepare": "run-s prepare:*",
-    "prepare:gen": "ts-node scripts/gen",
-    "prepare:build": "rollup -c",
-    "prepare:clean": "del src/.DS_Store src/**/.DS_Store"
+    "prepublishOnly": "yarn build",
+    "build": "rollup -c && tsc -b",
+    "test": "tsc --noEmit"
   },
   "devDependencies": {
-    "@admob-plus/core": "^0.9.1",
+    "@admob-plus-internal/rollup-config": "file:../../internal/rollup-config",
     "@types/cordova": "^0.0.34",
-    "@types/lodash": "^4.14.149",
-    "@types/node": "^13.7.0",
-    "cordova": "9.0.1-nightly.2019.9.21.1c8ca07f",
-    "del-cli": "^3.0.0",
-    "execa": "^4.0.0",
-    "fast-glob": "^3.1.1",
-    "find-cache-dir": "^3.2.0",
-    "lodash": "^4.17.15",
+    "cordova": "10.0.0",
     "npm-run-all": "^4.1.5",
-    "replace-in-file": "^5.0.2",
-    "rollup": "^1.31.0",
-    "rollup-plugin-commonjs": "^10.1.0",
-    "rollup-plugin-node-resolve": "^5.2.0",
-    "rollup-plugin-typescript2": "^0.25.3",
-    "ts-node": "^8.6.2"
+    "rollup": "^2.45.1",
+    "typescript": "^4.2.4"
   },
   "author": "Ratson",
   "license": "MIT",
   "repository": "admob-plus/admob-plus",
-  "homepage": "https://admob-plus.github.io",
+  "homepage": "https://admob-plus.github.io/docs/cordova",
   "files": [
     "*.ts",
     "*.md",
     "*.xml",
+    "lib",
+    "scripts",
     "src",
     "ts",
     "www"
   ],
   "keywords": [
     "cordova",
-    "plugin",
     "admob",
-    "plus",
+    "plugin",
     "ecosystem:cordova",
-    "cordova-plugin-admob",
-    "cordova-admob",
     "cordova-android",
     "cordova-ios",
-    "google",
-    "suite",
-    "admob-free",
-    "admobpro"
+    "monetization",
+    "free",
+    "admobpro",
+    "google"
   ],
   "cordova": {
-    "id": "cordova-admob-plus",
+    "id": "admob-plus-cordova",
     "platforms": [
       "android",
       "ios"
