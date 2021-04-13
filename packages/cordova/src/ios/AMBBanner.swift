@@ -4,13 +4,11 @@ class AMBBanner: AMBAdBase, GADBannerViewDelegate, GADAdSizeDelegate {
     static var stackView = UIStackView()
 
     static var topConstraint = {
-        return AMBBanner.stackView.topAnchor.constraint(
-            equalTo: AMBContext.plugin.viewController.view.safeAreaLayoutGuide.topAnchor)
+        return AMBBanner.stackView.topAnchor.constraint(equalTo: AMBContext.plugin.viewController.view.topAnchor)
     }()
 
     static var bottomConstraint = {
-        return AMBBanner.stackView.bottomAnchor.constraint(
-            equalTo: AMBContext.plugin.viewController.view.safeAreaLayoutGuide.bottomAnchor)
+        return AMBBanner.stackView.topAnchor.constraint(equalTo: AMBContext.plugin.viewController.view.bottomAnchor)
     }()
 
     let adSize: GADAdSize!
